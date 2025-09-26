@@ -27,7 +27,7 @@ public class MarkdownWebView: WKWebView {
     
     public private(set) var configuation: WKWebViewConfiguration
     public private(set) var updateHeightHandler: UpdateContentHeightHandler
-    public private(set) var selectionHandler: SelectionHandler
+    var selectionHandler: SelectionHandler
     
     
     public init(configuation: WKWebViewConfiguration = .init(), updateHeightHandler: UpdateContentHeightHandler = .init(), selectionHandler: SelectionHandler = .init()) {
@@ -43,6 +43,15 @@ public class MarkdownWebView: WKWebView {
         }
         navigationDelegate = self
         uiDelegate = self
+        
+        self.selectionHandler.funcForSelection = { [weak self] text, rect in
+            guard let weakself = self else { return }
+            if weakself.selectable == false {
+                weakself.cancelSelectText()
+                return
+            }
+            weakself.funcForSelect(text, rect)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -50,6 +59,9 @@ public class MarkdownWebView: WKWebView {
     }
     
     
+    var selectable: Bool = false
+    
+    var funcForSelect: (String, CGRect) -> Void = { _, _ in }
     
 }
 
@@ -69,6 +81,7 @@ extension MarkdownWebView: WKNavigationDelegate, WKUIDelegate {
 extension MarkdownWebView {
     
     public func selectTextAtCoordinates(x: CGFloat, y: CGFloat) {
+        
         let script = """
             var element = document.elementFromPoint(\(x), \(y));
             if (element) {
@@ -80,13 +93,19 @@ extension MarkdownWebView {
             }
         """
         
-        evaluateJavaScript(script) { (result, error) in
-            if let error = error {
-                print("Error selecting text: \(error.localizedDescription)")
-            } else {
-                print("Text selected at position: (\(x), \(y))")
-            }
-        }
+        evaluateJavaScript(script, completionHandler: nil)
+    }
+    
+    
+    public func cancelSelectText() {
+        becomeFirstResponder()
+        
+        let script = """
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+        """
+        
+        evaluateJavaScript(script, completionHandler: nil)
     }
     
     public func load(markdown: String) {
@@ -94,6 +113,8 @@ extension MarkdownWebView {
         configuration.userContentController.removeAllUserScripts()
         let us = WKUserScript(markdown: markdown)
         configuration.userContentController.addUserScript(us)
+        configuation.userContentController.addScriptHandler(handler: selectionHandler)
+        configuation.userContentController.addScriptHandler(handler: updateHeightHandler)
         reload()
     }
     

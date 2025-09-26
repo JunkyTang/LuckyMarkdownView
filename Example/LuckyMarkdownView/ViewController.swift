@@ -11,6 +11,8 @@ import SnapKit
 import LuckyMarkdownView
 
 class ViewController: UIViewController {
+    
+    var disableSelect: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,19 @@ class ViewController: UIViewController {
             make.edges.equalTo(0)
         }
         
+        view.addSubview(btn)
+        btn.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.centerX.equalTo(view)
+            make.width.height.equalTo(80)
+        }
+        
+        view.addSubview(btn1)
+        btn1.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.left.equalTo(btn.snp.right)
+            make.width.height.equalTo(80)
+        }
         
     }
     
@@ -33,6 +48,19 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    lazy var btn: UIButton = {
+        let tmp = UIButton(type: .system)
+        tmp.setTitle("action", for: .normal)
+        tmp.addTarget(self, action: #selector(clickAction), for: .touchUpInside)
+        return tmp
+    }()
+    
+    lazy var btn1: UIButton = {
+        let tmp = UIButton(type: .system)
+        tmp.setTitle("action", for: .normal)
+        tmp.addTarget(self, action: #selector(clickAction1), for: .touchUpInside)
+        return tmp
+    }()
     
     
     lazy var wbView: MarkdownWebView = {
@@ -40,10 +68,7 @@ class ViewController: UIViewController {
         tmp.updateHeightHandler.funcForUpdateHeight = {
             print($0)
         }
-        tmp.selectionHandler.funcForSelection = {
-            print($0)
-            print($1)
-        }
+
         return tmp
     }()
     
@@ -56,5 +81,15 @@ class ViewController: UIViewController {
     
     
 
+    @objc func clickAction() {
+        
+        disableSelect = !disableSelect
+        
+    }
+    @objc func clickAction1() {
+        
+        wbView.selectTextAtCoordinates(x: 120, y: 400)
+
+    }
 }
 

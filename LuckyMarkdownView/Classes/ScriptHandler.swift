@@ -34,6 +34,7 @@ extension ScriptHandler: WKScriptMessageHandler {
 
 extension WKUserContentController {
     func addScriptHandler(handler: ScriptHandler) {
+        removeScriptMessageHandler(forName: handler.name)
         add(handler, name: handler.name)
         if handler.script.count > 0 {
             addUserScript(WKUserScript(source: handler.script, injectionTime: .atDocumentEnd, forMainFrameOnly: true))
