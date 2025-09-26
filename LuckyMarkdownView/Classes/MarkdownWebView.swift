@@ -48,7 +48,6 @@ public class MarkdownWebView: WKWebView {
             guard let weakself = self else { return }
             if weakself.selectable == false {
                 weakself.cancelSelectText()
-                return
             }
             weakself.funcForSelect(text, rect)
         }
