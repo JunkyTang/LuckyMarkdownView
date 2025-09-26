@@ -37,6 +37,13 @@ class ViewController: UIViewController {
     
     lazy var wbView: MarkdownWebView = {
         let tmp = MarkdownWebView()
+        tmp.updateHeightHandler.funcForUpdateHeight = {
+            print($0)
+        }
+        tmp.selectionHandler.funcForSelection = {
+            print($0)
+            print($1)
+        }
         return tmp
     }()
     

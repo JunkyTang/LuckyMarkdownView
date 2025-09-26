@@ -26,16 +26,8 @@ public class MarkdownWebView: WKWebView {
     
     
     public private(set) var configuation: WKWebViewConfiguration
-    public private(set) var updateHeightHandler: UpdateContentHeightHandler {
-        didSet{
-            configuation.userContentController.addScriptHandler(handler: updateHeightHandler)
-        }
-    }
-    public private(set) var selectionHandler: SelectionHandler {
-        didSet{
-            configuation.userContentController.addScriptHandler(handler: selectionHandler)
-        }
-    }
+    public private(set) var updateHeightHandler: UpdateContentHeightHandler
+    public private(set) var selectionHandler: SelectionHandler
     
     
     public init(configuation: WKWebViewConfiguration = .init(), updateHeightHandler: UpdateContentHeightHandler = .init(), selectionHandler: SelectionHandler = .init()) {
@@ -43,6 +35,8 @@ public class MarkdownWebView: WKWebView {
         self.configuation = configuation
         self.updateHeightHandler = updateHeightHandler
         self.selectionHandler = selectionHandler
+        self.configuation.userContentController.addScriptHandler(handler: self.updateHeightHandler)
+        self.configuation.userContentController.addScriptHandler(handler: self.selectionHandler)
         super.init(frame: .zero, configuration: self.configuation)
         if let style = String.styledHtmlUrl {
             load(URLRequest(url: style))
