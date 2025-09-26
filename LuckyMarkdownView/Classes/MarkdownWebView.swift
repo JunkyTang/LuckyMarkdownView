@@ -59,9 +59,9 @@ public class MarkdownWebView: WKWebView {
     }
     
     
-    var selectable: Bool = false
+    public var selectable: Bool = false
     
-    var funcForSelect: (String, CGRect) -> Void = { _, _ in }
+    public var funcForSelect: (String, CGRect) -> Void = { _, _ in }
     
 }
 
