@@ -1,0 +1,23 @@
+PODS:
+  - LuckyMarkdownView (0.1.0)
+  - SnapKit (5.7.1)
+
+DEPENDENCIES:
+  - LuckyMarkdownView (from `../`)
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - SnapKit
+
+EXTERNAL SOURCES:
+  LuckyMarkdownView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  LuckyMarkdownView: 32d7e14110a6a9c871356e9c718e65a93d2c52d5
+  SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
+
+PODFILE CHECKSUM: cabe27671658c1f3b619c742a4cacf9498d0dcfc
+
+COCOAPODS: 1.16.2

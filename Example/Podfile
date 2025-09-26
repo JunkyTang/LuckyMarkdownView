@@ -1,0 +1,14 @@
+use_frameworks!
+
+platform :ios, '15.0'
+
+target 'LuckyMarkdownView_Example' do
+  pod 'LuckyMarkdownView', :path => '../'
+  pod 'SnapKit'
+
+  target 'LuckyMarkdownView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
