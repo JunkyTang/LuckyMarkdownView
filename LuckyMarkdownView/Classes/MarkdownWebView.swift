@@ -25,13 +25,13 @@ public class MarkdownWebView: WKWebView {
 
     
     
-    var configuation: WKWebViewConfiguration
-    var updateHeightHandler: UpdateContentHeightHandler {
+    public private(set) var configuation: WKWebViewConfiguration
+    public private(set) var updateHeightHandler: UpdateContentHeightHandler {
         didSet{
             configuation.userContentController.addScriptHandler(handler: updateHeightHandler)
         }
     }
-    var selectionHandler: SelectionHandler {
+    public private(set) var selectionHandler: SelectionHandler {
         didSet{
             configuation.userContentController.addScriptHandler(handler: selectionHandler)
         }
