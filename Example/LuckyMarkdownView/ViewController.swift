@@ -12,7 +12,6 @@ import LuckyMarkdownView
 
 class ViewController: UIViewController {
     
-    var disableSelect: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,8 +82,7 @@ class ViewController: UIViewController {
 
     @objc func clickAction() {
         
-        disableSelect = !disableSelect
-        
+        wbView.selectable = !wbView.selectable
     }
     @objc func clickAction1() {
         

@@ -77,15 +77,15 @@ public class SelectionHandler: ScriptHandler {
     public override func didReceive(message: WKScriptMessage) {
         guard message.name == name,
               let messageBody = message.body as? [String: Any],
-              let selectedText = messageBody["text"] as? String,
-              let position = messageBody["position"] as? [String: CGFloat]
+              let selectedText = messageBody["text"] as? String
         else {
             return
         }
-        let x: CGFloat = position["x"] ?? 0
-        let y: CGFloat = position["y"] ?? 0
-        let width: CGFloat = position["width"] ?? 0
-        let height: CGFloat = position["height"] ?? 0
+        let position = messageBody["position"] as? [String: CGFloat]
+        let x: CGFloat = position?["x"] ?? 0
+        let y: CGFloat = position?["y"] ?? 0
+        let width: CGFloat = position?["width"] ?? 0
+        let height: CGFloat = position?["height"] ?? 0
         
         funcForSelection(selectedText, CGRect(x: x, y: y, width: width, height: height))
     }
